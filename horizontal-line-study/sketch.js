@@ -1,3 +1,5 @@
+// inspired by inconvergent
+
 var canvasWidth = 600,
   canvasHeight = 600;
 
