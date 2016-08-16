@@ -1,10 +1,3 @@
-// this sketch was inspired by the pillars in this comic:
-// http://www.earthexplodes.com/comics/134/
-
-
-var frame = 0;
-var maxFrames = 10;
-
 var xBoxCount = 30;
 var yBoxCount = 30;
 
@@ -15,9 +8,6 @@ function setup() {
   createCanvas(canvasWidth, canvasHeight);
   noStroke();
   //noLoop();
-
-  //background(153);
-
 }
 
 function draw() {
@@ -38,5 +28,4 @@ function draw() {
   xBoxCount = round(random(100));
   yBoxCount = round(random(100));
   //if (xBoxCount < 1 || yBoxCount < 1) noLoop();
-
 }
