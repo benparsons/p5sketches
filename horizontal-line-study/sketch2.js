@@ -1,7 +1,7 @@
 // inspired by inconvergent
 
 var canvasWidth = 1000,
-  canvasHeight = 600;
+  canvasHeight = 680;
 var prevPoints = new Array();
 var xLag = new Array();
 
@@ -13,25 +13,30 @@ function setup() {
 }
 
 function draw() {
-  strokeWeight(5);
-  drawLine(100, 60);
-  drawLine(150, 50);
-  drawLine(200, 40);
-  drawLine(250, 30);
-  drawLine(300, 20);
-  drawLine(350, 15);
-  drawLine(400, 12);
-  drawLine(450, 10);
-  drawLine(500, 5);
-  x++;
-  //if (x % 50 == 0) filter(BLUR, 1);
 
-  if (x > 1050) {
+  if (x > 1060) {
     noLoop();
+  } else if (x === 1051) {
     filter(BLUR, 3);
     filter(ERODE);
     filter(INVERT);
+  } else if (x > 1051) {
+    filter(ERODE);
+  } else {
+    strokeWeight(5);
+    drawLine(100, 60);
+    drawLine(150, 50);
+    drawLine(200, 40);
+    drawLine(250, 30);
+    drawLine(300, 20);
+    drawLine(350, 15);
+    drawLine(400, 12);
+    drawLine(450, 10);
+    drawLine(500, 5);
   }
+
+
+  x++;
 
 }
 
@@ -46,14 +51,14 @@ function drawLine(yBase, suppressor) {
   var prevY = prevPoints[yBase] ? prevPoints[yBase][1] : yBase;
 
   stroke(200, 200, 255);
-  strokeWeight(10);
+  strokeWeight(15);
   line(prevX, prevY, x, y);
 
-  strokeWeight(5);
+  strokeWeight(8);
   stroke(0, 0, 255);
-  line(prevX-20, prevY+3, x-20, y+3);
+  line(prevX-20, prevY+4, x-20, y+4);
   stroke(0, 0, 0);
-  line(prevX-20, prevY-2, x-20, y-2);
+  line(prevX-20, prevY-3, x-20, y-3);
 
   prevPoints[yBase] = [x, y];
   xLag[yBase] += random(yBase/1000);
