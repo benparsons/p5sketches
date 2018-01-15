@@ -1,18 +1,20 @@
 var photos = [];
+var units = 20;
+var canvas_width = 1000;
+var strip_width = canvas_width / units;
 
 function preload() {
-  for (var i = 0; i < 100; i++) {
+  for (var i = 0; i < units; i++) {
 	// https://maxpull-tlu7l6lqiu.stackpathdns.com/wp-content/uploads/2015/05/cedar-pine-1024x678.jpg  	
     photos[i] = loadImage('cedar-pine-1024x678.jpg');
   }
 }
 
 function setup() {
-  
-  createCanvas(1000, 700);
-  for (var i = 0; i < 100; i++) {
+  createCanvas(canvas_width, 700);
+  for (var i = 0; i < units; i++) {
     photos[i].filter(POSTERIZE, i+2);
-    image(photos[i], i * 10, 0, 10, 700, i * 10, 0, 10, 700)
+    image(photos[i], i * strip_width, 0, strip_width, 700, i * strip_width, 0, strip_width, 700)
   }
   
   // Top-left corner of destination rectangle is at (50, 0)
