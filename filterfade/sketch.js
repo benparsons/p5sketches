@@ -13,7 +13,7 @@ function preload() {
 function setup() {
   createCanvas(canvas_width, 700);
   for (var i = 0; i < units; i++) {
-    photos[i].filter(POSTERIZE, i+2);
+    photos[i].filter(POSTERIZE, units-i + 1);
     image(photos[i], i * strip_width, 0, strip_width, 700, i * strip_width, 0, strip_width, 700)
   }
   
