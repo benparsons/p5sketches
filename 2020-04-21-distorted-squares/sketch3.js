@@ -8,6 +8,7 @@ function setup() {
   createCanvas(canvasWidth, canvasHeight);
   noStroke();
   noLoop();
+  // palette from https://www.colourlovers.com/palette/580974/
   palette = [
     color('#CFF09E'),
     color('#A8DBA8'),
