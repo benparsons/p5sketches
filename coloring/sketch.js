@@ -3,18 +3,38 @@ var canvasWidth = 600,
 let photo, pg
 var palette = {};
 var entries, result;
+let input;
+let img;
 
-function setup() {
-  createCanvas(canvasWidth, canvasHeight);
-  noStroke();
-  //noLoop();
+function handleFile(file) {
+  print(file);
+  if (file.type === 'image') {
+    img = createImg(file.data, '', (img) => {
+      processImage(img)
+      image(img, 0, 0, 256,192)
+    });
+    
+    // setTimeout(() => {
+    //   processImage(img)
+    //   image(img, 0, 0, 128,96)
+    // }, 1000);
+    img.hide();
+    
+    console.log("ok")
+  } else {
+    img = null;
+  }
+}
 
+function processImage(_img) {
+  console.log("start processing")
+  palette = {};
   pg = createGraphics(128, 96);
   //img.loadPixels();
-  pg.image(photo, 0, 0, 128, 96);
+  pg.image(_img, 0, 0, 128, 96);
   //background(153);
   //image(img, 0, 0, 128, 96);
-  image(photo, 0, 0, 128, 96)
+  //image(photo, 0, 0, 128, 96)
   for (var x = 0; x < pg.width; x++) {
     for (var y = 0; y < pg.height; y++) {
       //console.log(photo.get(x,y))
@@ -50,12 +70,25 @@ function setup() {
   result.sort(function(a,b) {
     return b[1] - a[1]
   })
-  //console.log(result);
+  console.log(result);
   for (var i = 0; i < 30; i++) {
-    console.log(result[i][0]);
+    //console.log(result[i][0]);
     fill(result[i][0].split(","));
-    rect(128, i*10, 100, 10);
+    rect(256, i*10, 100, 10);
   }
+  console.log("done processing")
+}
+
+function setup() {
+  createCanvas(canvasWidth, canvasHeight);
+  input = createFileInput(handleFile);
+  input.position(0, 0);
+  noStroke();
+  //noLoop();
+
+  processImage(photo);
+
+  
   
 }
 
@@ -70,8 +103,8 @@ function comparer(a, b) {
 }
 
 function preload() {
-  //photo = loadImage('../filterfade/cedar-pine-1024x678.jpg');
-  photo = loadImage('IMG_3422.jpg');
+  photo = loadImage('../filterfade/cedar-pine-1024x678.jpg');
+  //photo = loadImage('IMG_3422.jpg');
 }
 
 function draw() {
