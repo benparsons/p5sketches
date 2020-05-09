@@ -6,7 +6,7 @@ var strip_width = canvas_width / units;
 function preload() {
   for (var i = 0; i < units; i++) {
 	// https://maxpull-tlu7l6lqiu.stackpathdns.com/wp-content/uploads/2015/05/cedar-pine-1024x678.jpg  	
-    photos[i] = loadImage('cedar-pine-1024x678.jpg');
+    photos[i] = loadImage('../images/cedar-pine.jpg');
   }
 }
 

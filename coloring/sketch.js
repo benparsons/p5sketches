@@ -103,7 +103,7 @@ function comparer(a, b) {
 }
 
 function preload() {
-  photo = loadImage('../filterfade/cedar-pine-1024x678.jpg');
+  photo = loadImage('../images/cedar-pine.jpg');
   //photo = loadImage('IMG_3422.jpg');
 }
 
