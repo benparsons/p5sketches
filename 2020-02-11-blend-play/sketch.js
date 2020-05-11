@@ -3,7 +3,7 @@ var index = 0;
 
 function preload() {
   for (var i = 1; i <= 9; i++) {
-    images.push(loadImage(i+'.jpg'));
+    images.push(loadImage(`../images/bright-run/${i}.jpg`));
   }
 }
 
