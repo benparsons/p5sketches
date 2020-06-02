@@ -1,3 +1,6 @@
+/// @ts-check
+/// <reference path="../node_modules/@types/p5/global.d.ts" />
+
 // from 2020-02-11-blend-play
 
 var images = [];
