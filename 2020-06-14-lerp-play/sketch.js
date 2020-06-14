@@ -9,7 +9,12 @@ function setup() {
   createCanvas(canvasWidth, canvasHeight);
   colorMode(RGB);
   noStroke();
+  frameRate(1/2);
+  //noLoop();
+}
 
+function draw() {
+  colors = [];
   for (var i = 0; i < count; i++) {
     colors.push(
       color(
@@ -24,17 +29,8 @@ function setup() {
     let to = colors[c+1];
     for (var s = 0; s < steps; s++) {
       let lerpVal = (1 / steps) * (steps - s);
-      console.log(lerpVal);
       fill(lerpColor(from, to, lerpVal));
       rect(stepWidth*s, c*100, stepWidth, 100);
     }
   }
-  
-  noLoop();
-}
-
-function draw() {
-  // rect(leftDistance, topDistance, width, height)
-  // fill(r, g, b); fill(grey); noFill();
-  // map(value, in-range-min, in-range-max, out-range-min, out-range-max)
 }
