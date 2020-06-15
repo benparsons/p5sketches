@@ -1,13 +1,32 @@
 var canvasWidth = 1280,
-  canvasHeight = 600;
+  canvasHeight = 400;
 var img, from, to;
 let steps = 20;
 let colors = [];
-let imageWidth = 640;
-let imageHeight = 400;
+let imageWidth = 2560 / 4 / 1;
+let imageHeight = 1600 / 4 / 1;
 
 function setup() {
-  createCanvas(canvasWidth, canvasHeight);
+  let canvas = createCanvas(canvasWidth, canvasHeight);
+  canvas.position(0,0);
+
+  let buttonYes = createButton('YES');
+  buttonYes.position(canvasWidth + 10, canvasHeight / 2);
+  buttonYes.mousePressed(() => clickYes(from, to));
+
+  let buttonNo = createButton('NO');
+  buttonNo.position(canvasWidth + 10, canvasHeight / 2 + 20);
+  buttonNo.mousePressed(() => renderFresh());
+
+  img.resize(imageWidth, imageHeight);
+  image(img, 0, 0, imageWidth, imageHeight);
+
+  renderFresh();
+
+  noLoop();
+}
+
+function renderFresh() {
   from = color(
     int(random(256)),
     int(random(256)),
@@ -17,25 +36,20 @@ function setup() {
     int(random(256)),
     int(random(256)));
 
-
-
+  colors = [];
   for (var s = 0; s < steps; s++) {
     let lerpVal = (1 / steps) * (steps - s);
     colors.push(lerpColor(from, to, lerpVal));
   }
-  //noStroke();
-  img.resize(imageWidth, imageHeight);
-  image(img, 0, 0, imageWidth, imageHeight);
+  
   for (var x = 0; x < imageWidth; x++) {
     for (var y = 0; y < imageHeight; y++) {
       var c = img.get(x, y);
-      //console.log(c);
       stroke(getNearest(c));
       
       point(x + 640, y);
     }
   }
-  noLoop();
 }
 
 function getNearest(c) {
@@ -52,6 +66,11 @@ function getNearest(c) {
     }
   }
   return result;
+}
+
+function clickYes(from, to) {
+  console.log(from.levels, to.levels);
+  renderFresh();
 }
 
 function preload() {
