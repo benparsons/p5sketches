@@ -1,5 +1,5 @@
 var canvasWidth = 1280,
-  canvasHeight = 400;
+  canvasHeight = 800;
 var img, from, to;
 let steps = 20;
 let colors = [];
@@ -80,6 +80,9 @@ function clickYes(from, to) {
 function loadNewImage() {
   let url = "http://localhost:8090/api/1/get/scene";
   loadJSON(url, data => {
+    var scale = min(1.5, (canvasWidth / 2) / data.width);
+    imageHeight = data.height * scale;
+    imageWidth = data.width * scale;
     img =loadImage(data.url, loadSourceImage);
   });
 }
