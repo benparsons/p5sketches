@@ -5,6 +5,7 @@ let steps = 20;
 let colors = [];
 let imageWidth = 2560 / 4 / 1;
 let imageHeight = 1600 / 4 / 1;
+let cc_id = "";
 
 function setup() {
   let canvas = createCanvas(canvasWidth, canvasHeight);
@@ -73,7 +74,10 @@ function getNearest(c) {
 }
 
 function clickYes(from, to) {
-  console.log(from.levels, to.levels);
+  //console.log(from.levels, to.levels);
+  let url = "http://localhost:8090/api/1/save/:project/:cc_id/:save_data"
+  loadJSON(url, data => {
+  });
   renderFresh();
 }
 
