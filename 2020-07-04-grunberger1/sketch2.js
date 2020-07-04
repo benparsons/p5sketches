@@ -15,12 +15,17 @@ function setup() {
   for (var i = 0; i < vectorCount; i++) {
     vectors.push(createVector(0, 0));
   }
-  let pg = createGridElement(2, 2);
-  image(pg, 0, 0, 100, 100);
+  for (x = 0; x < elements; x++) {
+    for (y = 0; y < elements; y++) {
+      let vectorsCopy = vectors.map(v => {return v.copy()});
+      let pg = createGridElement(vectorsCopy, x + 1, y + 1, false);
+      image(pg, x * pg.width, y * pg.width, pg.width, pg.height);
+    }
+  }
   noLoop();
 }
 
-function createGridElement(x, y) {
+function createGridElement(vectors, x, y, overlayGrid) {
   let pgWidth = gridWidth * scale;
   let pgHeight = gridWidth * scale;
   pg = createGraphics(pgWidth, pgHeight);
@@ -41,7 +46,10 @@ function createGridElement(x, y) {
   pg.endShape(CLOSE);
 
   // grid overlay
-  drawOverlay(pg);
+  if (overlayGrid) {
+    drawOverlay(pg);
+  }
+
   return pg;
 }
 
