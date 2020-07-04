@@ -15,32 +15,34 @@ function setup() {
   for (var i = 0; i < vectorCount; i++) {
     vectors.push(createVector(0, 0));
   }
-  drawElement();
+  let pg = createGridElement(2, 2);
+  image(pg, 0, 0, 100, 100);
   noLoop();
 }
 
-function draw() {
-  stroke(0, 255, 0);
-  fill(255)
-  vectors[0].add(0, 1);
-  vectors[1].add(1, 0);
-  beginShape();
-  for (var i = 0; i < vectorCount; i++) {
-    vertex(vectors[i].x * scale, vectors[i].y * scale);
-  }
-  endShape(CLOSE);
-  //drawOverlay();
-}
-
-function drawElement() {
+function createGridElement(x, y) {
   let pgWidth = gridWidth * scale;
   let pgHeight = gridWidth * scale;
   pg = createGraphics(pgWidth, pgHeight);
+
+  // background
   pg.noStroke();
   pg.fill(backgroundColor);
   pg.rect(0, 0, pgWidth, pgHeight);
+
+  pg.fill(255)
+  stroke(0, 255, 0);
+  vectors[0].add(x, 0);
+  vectors[1].add(0, y);
+  pg.beginShape();
+  for (var i = 0; i < vectorCount; i++) {
+    pg.vertex(vectors[i].x * scale, vectors[i].y * scale);
+  }
+  pg.endShape(CLOSE);
+
+  // grid overlay
   drawOverlay(pg);
-  image(pg, 0, 0, 100, 100);
+  return pg;
 }
 
 function drawOverlay(pg) {
