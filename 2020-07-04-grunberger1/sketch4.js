@@ -13,7 +13,9 @@ function setup() {
   backgroundColor = color(0, 0, 0);
   frameRate(1);
   for (var i = 0; i < vectorCount; i++) {
-    vectors.push(createVector(gridWidth / 2, gridHeight / 2));
+    vectors.push(createVector(
+      gridWidth / 2 + int(random(-2,2)),
+      gridHeight / 2 + int(random(-2,2))));
   }
   for (x = 0; x < elements; x++) {
     for (y = 0; y < elements; y++) {
