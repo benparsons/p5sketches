@@ -3,7 +3,7 @@ let scale = 10;
 let vectors = [];
 let vectorCount = 3;
 let backgroundColor;
-let elements = 8;
+let elements = 15;
 let x = 0, y = 0;
 
 var canvasWidth = gridWidth * scale * elements,
@@ -33,16 +33,14 @@ function draw() {
   } else {
     y = 0;
     x = 0;
-    console.log("CONDITION 4")
   }
   delete pg;
-  console.log(JSON.stringify(vectors.map(v => { return {x: v.x, y: v.y}})))
 }
 
 function createGridElement(vectors, x, y, overlayGrid) {
   let pgWidth = gridWidth * scale;
   let pgHeight = gridWidth * scale;
-  pg = createGraphics(pgWidth, pgHeight);
+  let pg = createGraphics(pgWidth, pgHeight);
 
   // background
   pg.noStroke();
