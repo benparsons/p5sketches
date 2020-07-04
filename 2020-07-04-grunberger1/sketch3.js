@@ -35,7 +35,7 @@ function createGridElement(vectors, x, y, overlayGrid) {
   pg.fill(backgroundColor);
   pg.rect(0, 0, pgWidth, pgHeight);
 
-  pg.fill(255)
+  pg.fill(255 - x * y * 2, 100 + x * y * 2, 255)
   stroke(0, 255, 0);
   vectors[0].add(x, 0);
   vectors[1].add(0, y);
