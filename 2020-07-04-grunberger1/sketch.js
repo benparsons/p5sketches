@@ -1,6 +1,7 @@
 let gridWidth = 8, gridHeight = 8;
 let scale = 100;
-let v1, v2, v3;
+let vectors = [];
+let vectorCount = 3;
 
 var canvasWidth = gridWidth * scale,
   canvasHeight = gridHeight * scale;
@@ -8,23 +9,23 @@ var canvasWidth = gridWidth * scale,
 function setup() {
   createCanvas(canvasWidth, canvasHeight);
   frameRate(1);
-  v1 = createVector(0, 0);
-  v2 = createVector(1, 0);
-  v3 = createVector(0, 1);
+  for (var i = 0; i < vectorCount; i++) {
+    vectors.push(createVector(0, 0));
+  }
 }
 
 function draw() {
   background(0);
   stroke(0, 255, 0);
   beginShape();
-    vertex(v1.x * scale, v1.y * scale);
-    vertex(v2.x * scale, v2.y * scale);
-    vertex(v3.x * scale, v3.y * scale);
+  for (var i = 0; i < vectorCount; i++) {
+    vertex(vectors[i].x * scale, vectors[i].y * scale);
+  }
   endShape(CLOSE);
-  v3.add(0, 1)
-  v2.add(1, 0)
+  vectors[0].add(0, 1);
+  vectors[1].add(1, 0);
   drawOverlay();
-  console.log(frameCount, v1.x, v1.y);
+  //noLoop();
 }
 
 function drawOverlay() {
