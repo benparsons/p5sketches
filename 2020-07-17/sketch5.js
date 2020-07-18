@@ -20,25 +20,87 @@ function setup() {
   chasers.push(new El({velocityLimit:5, accelerationLimit: 0.1})); // good, wild
   chasers.push(new El({velocityLimit:5, accelerationLimit: 0.01})); // good, calm
   //frameRate(10);
-  //noLoop();
+  noLoop();
 
   //background(153);
 }
 
-function mouseClicked() {
-  draw();
+
+function mousePressed() {
+  loop();
+}
+function mouseReleased() {
+  noLoop();
 }
 
+let camera = {
+  x: 0, y: 0,
+  width: canvasWidth / 2,
+  height: canvasHeight / 2
+}
 function draw() {
-  pg.background(100);
+  //pg.background(100);
+  background(100);
+  //drawOverlay(pg);
   el1.tick();
-  //el1.render();
+  el1.render();
   chasers.forEach(el => {
     el.tick();
     el.render();
     el.chase(el1);
   })
-  image(pg, 0, 0, canvasWidth, canvasHeight);
+  //image(pg, 0, 0, canvasWidth, canvasHeight);
+  //image(img, dx, dy, dWidth, dHeight, sx, sy, [sWidth], [sHeight])
+  adjustCamera();
+  image(pg, 0, 0, canvasWidth, canvasHeight, 
+    camera.x,
+    camera.y,
+    camera.width,
+    camera.height);
+}
+
+function drawOverlay(pg) {
+  let scale = 50;
+  let gridWidth = 80, gridHeight = 80;
+  for (var x = 0; x <= gridWidth; x++) {
+    pg.stroke(255, 0, 0);
+    pg.strokeWeight(1);
+    pg.line(x * scale, 0, x * scale, canvasHeight);
+  }
+  for (var y = 0; y <= gridHeight; y++) {
+    pg.stroke(255, 0, 0);
+    pg.strokeWeight(1);
+    pg.line(0, y * scale, canvasWidth, y * scale);
+  }
+  pg.stroke(0, 0, 0);
+}
+
+function adjustCamera() {
+  let minX = Math.min(...chasers.map(c => {return c.location.x}));
+  let maxX = Math.max(...chasers.map(c => {return c.location.x}));
+  let minY = Math.min(...chasers.map(c => {return c.location.y}));
+  let maxY = Math.max(...chasers.map(c => {return c.location.y}));
+  if (camera.x < minX - 10) {
+    camera.x++;
+    //console.log("camera.x++: " + camera.x);
+  } else {
+    camera.x--;
+    //console.log("camera.x--: " + camera.x);
+  }
+  camera.x = Math.max(camera.x, 0);
+  camera.x = Math.min(camera.x, canvasWidth - camera.width);
+
+
+  if (camera.y < minY - 10) {
+    camera.y++;
+    console.log("camera.y++: " + camera.y);
+  } else {
+    camera.y--;
+    console.log("camera.y--: " + camera.y);
+  }
+  camera.y = Math.max(camera.y, 0);
+  camera.y = Math.min(camera.y, canvasHeight - camera.height);
+  return;
 }
 
 function El ({velocityLimit = 5, accelerationLimit = 0.1, size = 8} = {}) {
