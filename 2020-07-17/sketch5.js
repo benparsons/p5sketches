@@ -20,7 +20,7 @@ function setup() {
   chasers.push(new El({velocityLimit:5, accelerationLimit: 0.1})); // good, wild
   chasers.push(new El({velocityLimit:5, accelerationLimit: 0.01})); // good, calm
   //frameRate(10);
-  noLoop();
+  //noLoop();
 
   //background(153);
 }
@@ -43,7 +43,7 @@ function draw() {
   background(100);
   //drawOverlay(pg);
   el1.tick();
-  el1.render();
+  //el1.render();
   chasers.forEach(el => {
     el.tick();
     el.render();
@@ -104,6 +104,16 @@ function adjustCamera() {
   }
   camera.y = Math.max(camera.y, 0);
   camera.y = Math.min(camera.y, canvasHeight - camera.height);
+
+  if ((maxX - minX) * 1.5 > camera.width &&
+    (maxY - minY) * 1.5 > camera.height) {
+    camera.width++;
+    camera.width++;
+  } else {
+    camera.width--;
+  }
+  camera.height = camera.width / canvasWidth * canvasHeight;
+
   return;
 }
 
