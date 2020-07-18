@@ -80,23 +80,27 @@ function adjustCamera() {
   let maxX = Math.max(...chasers.map(c => {return c.location.x}));
   let minY = Math.min(...chasers.map(c => {return c.location.y}));
   let maxY = Math.max(...chasers.map(c => {return c.location.y}));
-  if (camera.x < minX - 10) {
-    camera.x++;
-    //console.log("camera.x++: " + camera.x);
-  } else {
+  let aveX = chasers
+    .map(c => { return c.location.x })
+    .reduce((a, b) => a + b, 0)
+  / chasers.length;
+  let aveY = chasers
+    .map(c => { return c.location.y })
+    .reduce((a, b) => a + b, 0)
+  / chasers.length;
+
+  if (aveX < camera.x + (camera.width / 2) ) {
     camera.x--;
-    //console.log("camera.x--: " + camera.x);
+  } else {
+    camera.x++;
   }
   camera.x = Math.max(camera.x, 0);
   camera.x = Math.min(camera.x, canvasWidth - camera.width);
 
-
-  if (camera.y < minY - 10) {
-    camera.y++;
-    console.log("camera.y++: " + camera.y);
-  } else {
+  if (aveY < camera.y + (camera.height / 2) ) {
     camera.y--;
-    console.log("camera.y--: " + camera.y);
+  } else {
+    camera.y++;
   }
   camera.y = Math.max(camera.y, 0);
   camera.y = Math.min(camera.y, canvasHeight - camera.height);
