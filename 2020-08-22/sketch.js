@@ -4,33 +4,18 @@ var img;
 const scaleDown = 4;
 let polygons = [];
 let index = 0;
-let adjustScale = 3;
+let adjustScale = 1;
 
 function setup() {
   createCanvas(canvasWidth, canvasHeight);
   noStroke();
   image(img, 0, 0, img.width / scaleDown, img.height / scaleDown);
   //noLoop();
-  addPolygon(30, 20);
-  addPolygon(100, 20);
-  addPolygon(200, 20);
-  addPolygon(300, 20);
-  addPolygon(400, 20);
-  addPolygon(30, 80);
-  addPolygon(100, 80);
-  addPolygon(200, 80);
-  addPolygon(300, 80);
-  addPolygon(400, 80);
-  addPolygon(30, 140);
-  addPolygon(100, 140);
-  addPolygon(200, 140);
-  addPolygon(300, 140);
-  addPolygon(400, 140);
-  addPolygon(30, 200);
-  addPolygon(100, 200);
-  addPolygon(200, 200);
-  addPolygon(300, 200);
-  addPolygon(400, 200);
+  [50,100,150,200].forEach(y => {
+    [50,100,150,200,250].forEach(x => {
+      addPolygon(x,y);
+    })
+  });
 
   //background(153);
 }
@@ -46,22 +31,30 @@ function draw() {
 }
 
 function adjustPolygon() {
+  index > polygons.length - 2 ? index = 0 : index++;
   let v = int(random(0,6));
-  polygons[index][v].x += int(random(-1-adjustScale,1+adjustScale));
-  polygons[index][v].y += int(random(-1-adjustScale,1+adjustScale));
+  let newX = polygons[index][v].x + int(random(-1-adjustScale,1+adjustScale));
+  let newY = polygons[index][v].y + int(random(-1-adjustScale,1+adjustScale));
   
-  let otherPolygons = [].concat(polygons)
-  otherPolygons.splice(index, 1)
-  
+  let otherPolygons = [].concat(polygons);
+  otherPolygons.splice(index, 1);
+
   for (polygon of otherPolygons) {
-    // let ins = collidePointPoly([polygons[index][v].x, polygons[index][v].y],
-    //   polygon.map(v => [v.x, v.y]));
-    let ins = collidePointPoly(polygons[index][v].x, polygons[index][v].y, polygon);
-    if (ins) {
-      console.log(ins)
+    if (collidePointPoly(polygons[index][v].x, polygons[index][v].y, polygon)) {
+      console.log("HIT");
+      return;
+    }
+    for (let v of polygon) {
+      if (collidePointPoly(v.x, v.y, polygons[index])) {
+        console.log("HIT2");
+        return;
+      }
     }
   }
-  index > polygons.length - 2 ? index = 0 : index++;
+
+  polygons[index][v].x = newX;
+  polygons[index][v].y = newY;
+
 }
 
 function drawPolygons() {
@@ -79,7 +72,9 @@ function addPolygon(x, y) {
   poly.push(new p5.Vector(x, y));
   poly.push(new p5.Vector(x + 20, y));
   poly.push(new p5.Vector(x + 30, y + 20));
+  poly.push(new p5.Vector(x + 30, y + 40));
   poly.push(new p5.Vector(x + 20, y + 40));
+  poly.push(new p5.Vector(x + 10, y + 40));
   poly.push(new p5.Vector(x, y + 40));
   poly.push(new p5.Vector(x - 10, y + 20));
   polygons.push(poly);
