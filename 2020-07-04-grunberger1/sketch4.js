@@ -17,8 +17,8 @@ function setup() {
       gridWidth / 2 + int(random(-2,2)),
       gridHeight / 2 + int(random(-2,2))));
   }
-  for (x = 0; x < elements; x++) {
-    for (y = 0; y < elements; y++) {
+  for (y = 0; y < elements; y++) {
+    for (x = 0; x < elements; x++) {
       //let vectorsCopy = vectors.map(v => {return v.copy()});
       let pg = createGridElement(vectors, x + 1, y + 1, false);
       image(pg, x * pg.width, y * pg.width, pg.width, pg.height);
