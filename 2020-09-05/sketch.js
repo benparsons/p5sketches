@@ -6,9 +6,7 @@ var canvasWidth = 2000,
 
   let r, g, b;
   let  y;
-  let buffer = 10;
-  let delta = 10;
-  let roughness = 7;
+  let buffer, delta, roughness;
 
 
   function setup() {
@@ -22,9 +20,12 @@ var canvasWidth = 2000,
     r = 100;
     g = 100;
     b = 100;
+    buffer = int(random(9,12));
+    delta = int(random(9,12));
+    roughness = int(random(5,9));
     let seed = int(random(0, 9999999))
     randomSeed(seed);
-    console.log(JSON.stringify({buffer, delta, roughness, seed}));
+    console.log(JSON.stringify({buffer, delta, roughness, seed, v:1}));
   }
   
   function draw() {
