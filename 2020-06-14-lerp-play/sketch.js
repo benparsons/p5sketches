@@ -1,5 +1,5 @@
-var canvasWidth = 800,
-  canvasHeight = 600;
+var canvasWidth = 1600,
+  canvasHeight = 1200;
 let colors = [];
 let count = 8;
 let steps = 20;
