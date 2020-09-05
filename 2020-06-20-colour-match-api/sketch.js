@@ -87,6 +87,7 @@ function loadNewImage() {
     var scale = min(1.5, (canvasWidth / 2) / data.width);
     imageHeight = data.height * scale;
     imageWidth = data.width * scale;
+    console.log(data);
     img =loadImage(data.url, loadSourceImage);
   });
 }
