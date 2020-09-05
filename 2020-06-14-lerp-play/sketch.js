@@ -30,7 +30,7 @@ function draw() {
     for (var s = 0; s < steps; s++) {
       let lerpVal = (1 / steps) * (steps - s);
       fill(lerpColor(from, to, lerpVal));
-      rect(stepWidth*s, c*100, stepWidth, 100);
+      rect(steps*stepWidth - stepWidth*(s+1), c*100, stepWidth, 100);
     }
   }
 }
