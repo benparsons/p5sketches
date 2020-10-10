@@ -75,7 +75,7 @@ function getNearest(c) {
 
 function clickYes(from, to) {
   //console.log(from.levels, to.levels);
-  let url = "http://localhost:8090/api/1/save/:project/:cc_id/:save_data"
+  let url = `http://localhost:8090/api/1/save/2020-06-20/${cc_id}/${encodeURI(JSON.stringify({from: from.levels, to: to.levels}))}`;
   loadJSON(url, data => {
   });
   renderFresh();
@@ -89,5 +89,6 @@ function loadNewImage() {
     imageWidth = data.width * scale;
     console.log(data);
     img =loadImage(data.url, loadSourceImage);
+    cc_id = data.cc_id;
   });
 }
