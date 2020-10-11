@@ -6,6 +6,7 @@ let colors = [];
 let imageWidth = 2560 / 4 / 1;
 let imageHeight = 1600 / 4 / 1;
 let cc_id = "";
+let textStatus;
 
 function setup() {
   let canvas = createCanvas(canvasWidth, canvasHeight);
@@ -18,6 +19,9 @@ function setup() {
   let buttonNo = createButton('NO');
   buttonNo.position(canvasWidth + 10, canvasHeight / 2 + 20);
   buttonNo.mousePressed(() => renderFresh());
+
+  textStatus = createP("");
+  textStatus.position(canvasWidth + 10, canvasHeight / 2 + 40)
 
   noLoop();
 
@@ -32,6 +36,7 @@ function loadSourceImage() {
 }
 
 function renderFresh() {
+  textStatus.html("Picking new colours")
   from = color(
     int(random(256)),
     int(random(256)),
@@ -41,12 +46,14 @@ function renderFresh() {
     int(random(256)),
     int(random(256)));
 
+  textStatus.html("Lerping")
   colors = [];
   for (var s = 0; s < steps; s++) {
     let lerpVal = (1 / steps) * (steps - s);
     colors.push(lerpColor(from, to, lerpVal));
   }
   
+  textStatus.html("Updating render")
   for (var x = 0; x < imageWidth; x++) {
     for (var y = 0; y < imageHeight; y++) {
       var c = img.get(x, y);
@@ -55,25 +62,11 @@ function renderFresh() {
       point(x + 640, y);
     }
   }
-}
-
-function getNearest(c) {
-  var dist = Infinity;
-  var result;
-  for (test of colors) {
-    var testDist = 
-      Math.abs(test.levels[0]-c[0]) +
-      Math.abs(test.levels[1]-c[1]) +
-      Math.abs(test.levels[2]-c[2]);
-    if (testDist < dist) {
-      dist = testDist;
-      result = test;
-    }
-  }
-  return result;
+  textStatus.html("Render done")
 }
 
 function clickYes(from, to) {
+  textStatus.html("Sending data");
   //console.log(from.levels, to.levels);
   let url = `http://localhost:8090/api/1/save/2020-06-20/${cc_id}/${encodeURI(JSON.stringify({from: from.levels, to: to.levels}))}`;
   loadJSON(url, data => {
@@ -82,12 +75,14 @@ function clickYes(from, to) {
 }
 
 function loadNewImage() {
+  textStatus.html("Selecting new image")
   let url = "http://localhost:8090/api/1/get/scene";
   loadJSON(url, data => {
     var scale = min(1.5, (canvasWidth / 2) / data.width);
     imageHeight = data.height * scale;
     imageWidth = data.width * scale;
     console.log(data);
+    textStatus.html("Downloading new image")
     img =loadImage(data.url, loadSourceImage);
     cc_id = data.cc_id;
   });
