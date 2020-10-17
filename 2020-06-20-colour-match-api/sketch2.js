@@ -8,51 +8,26 @@ let imageWidth = 2560 / 4 / 1;
 let imageHeight = 1600 / 4 / 1;
 let cc_id = "";
 let textStatus;
-function loadSourceImage() {
-}
+
 function setup() {
     let url = "http://localhost:8090/api/1/compare/2020-06-20";
     loadJSON(url, data => {
         console.log(data);
-        var scale = min(1.5, (canvasWidth / 2) / data[0].width);
-        imageHeight = data[0].height * scale;
-        imageWidth = data[0].width * scale;
-        pg = createGraphics(imageHeight, imageWidth);
-        img = loadImage(data[0].url, () => {
-            img.resize(imageWidth, imageHeight);
-            image(img, 0, 0, imageWidth, imageHeight);
-
-            colors = [];
-            let save_data = JSON.parse(data[0].save_data);
-            for (var s = 0; s < steps; s++) {
-                let lerpVal = (1 / steps) * (steps - s);
-                colors.push(lerpColor(color(save_data.from), color(save_data.to), lerpVal));
-            }
-            console.log(colors)
-            for (var x = 0; x < imageWidth; x++) {
-                for (var y = 0; y < imageHeight; y++) {
-                    var c = img.get(x, y);
-                    stroke(getNearest(c));
-
-                    point(x, y);
-                }
-            }
-            image(pg, 0, 0)
-        });
-        
+        renderExisting(data[0], 0)
+        setTimeout(()=> { renderExisting(data[1], canvasWidth/2) }, 2000);
     });
 
 
     let canvas = createCanvas(canvasWidth, canvasHeight);
     canvas.position(0, 0);
 
-    let buttonYes = createButton('YES');
+    let buttonYes = createButton('1');
     buttonYes.position(canvasWidth + 10, canvasHeight / 2);
-    buttonYes.mousePressed(() => clickYes(from, to));
+    buttonYes.mousePressed(() => vote(data[0].cc_id, data[1].cc_id));
 
-    let buttonNo = createButton('NO');
+    let buttonNo = createButton('2');
     buttonNo.position(canvasWidth + 10, canvasHeight / 2 + 20);
-    buttonNo.mousePressed(() => renderFresh());
+    buttonNo.mousePressed(() => vote(data[1].cc_id, data[0].cc_id));
 
     textStatus = createP("");
     textStatus.position(canvasWidth + 10, canvasHeight / 2 + 40)
@@ -60,4 +35,29 @@ function setup() {
     noLoop();
 }
 
+function renderExisting(data, offset) {
+    img = loadImage(data.url, () => {
+        var scale = min(1.5, (canvasWidth / 2) / data.width);
+        imageHeight = data.height * scale;
+        imageWidth = data.width * scale;
+        img.resize(imageWidth, imageHeight);
+        image(img,  offset + 0, 0, imageWidth, imageHeight);
 
+        colors = [];
+        let save_data = JSON.parse(data.save_data);
+        for (var s = 0; s < steps; s++) {
+            let lerpVal = (1 / steps) * (steps - s);
+            colors.push(lerpColor(color(save_data.from), color(save_data.to), lerpVal));
+        }
+        console.log(colors)
+        for (var x = offset + 0; x < offset + imageWidth; x++) {
+            for (var y = 0; y < imageHeight; y++) {
+                var c = img.get(x - offset, y);
+                stroke(getNearest(c));
+
+                point(x, y);
+            }
+        }
+    });
+
+}
