@@ -1,7 +1,7 @@
 
 var canvasWidth = 1280,
     canvasHeight = 800;
-var img1, img2, from1, to1, from2, to2;
+let saveId1, saveId2;
 let steps = 20;
 let colors = [];
 let imageWidth = 2560 / 4 / 1;
@@ -13,26 +13,37 @@ function setup() {
     let url = "http://localhost:8090/api/1/compare/2020-06-20";
     loadJSON(url, data => {
         console.log(data);
+        saveId1 = data[0].save_id;
+        saveId2 = data[1].save_id;
         renderExisting(data[0], 0)
         setTimeout(()=> { renderExisting(data[1], canvasWidth/2) }, 2000);
     });
-
 
     let canvas = createCanvas(canvasWidth, canvasHeight);
     canvas.position(0, 0);
 
     let buttonYes = createButton('1');
     buttonYes.position(canvasWidth + 10, canvasHeight / 2);
-    buttonYes.mousePressed(() => vote(data[0].cc_id, data[1].cc_id));
+    buttonYes.mousePressed(() => vote(saveId1, saveId2));
 
     let buttonNo = createButton('2');
     buttonNo.position(canvasWidth + 10, canvasHeight / 2 + 20);
-    buttonNo.mousePressed(() => vote(data[1].cc_id, data[0].cc_id));
+    buttonNo.mousePressed(() => vote(saveId2, saveId1));
 
     textStatus = createP("");
     textStatus.position(canvasWidth + 10, canvasHeight / 2 + 40)
 
     noLoop();
+}
+
+function vote(win, lose) {
+    textStatus.html("sending vote");
+    //console.log(from.levels, to.levels);
+    let url = `http://localhost:8090/api/1/vote/${win}/${lose}`;
+    loadJSON(url, data => {
+        console.log(data);
+        location.reload(true);
+    });
 }
 
 function renderExisting(data, offset) {
