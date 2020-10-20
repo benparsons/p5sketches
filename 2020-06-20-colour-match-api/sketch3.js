@@ -13,18 +13,20 @@ function setup() {
 
   noLoop();
 
-  let url = "http://localhost:8090/api/1/project_save/21/output";
+  let url = "http://localhost:8090/api/1/project_save/184/output";
   loadJSON(url, data => {
     var scale = 1;//min(1.5, (canvasWidth / 2) / data.width);
-    imageHeight = data.height * scale;
-    imageWidth = data.width * scale;
-    let canvas = createCanvas(imageWidth, imageHeight);
-    canvas.position(0,0);
     console.log(data);
     let url = data.url;
+    imageHeight = data.cc_height * scale;
+    imageWidth = data.cc_width * scale;
     if (data.filename) {
       url = `http://localhost:8090/images/${data.filename}`;
+      imageHeight = data.cc_local_cache_height * scale;
+      imageWidth = data.cc_local_cache_width * scale;
     }
+    let canvas = createCanvas(imageWidth, imageHeight);
+    canvas.position(0,0);
     img =loadImage(url, loadSourceImage);
     cc_id = data.cc_id;
     from = color(JSON.parse(data.save_data).from);
