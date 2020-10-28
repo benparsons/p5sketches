@@ -8,8 +8,8 @@ let colorsCold = ["e7dfd5", "84a9ac", "3b6978", "204051"]; // 192310
 
 function setup() {
   background(255);
-  let pgBackground = createLayer(10, 20000, colorsCold, false, true);
-  //let pgBackground = createLayer(100, 20000, colorsCold, false, true);
+  //let pgBackground = createLayer(10, 20000, colorsCold, false, true);
+  let pgBackground = createLayer(100, 20000, colorsCold, false, true);
   let pgForeground = createLayer(100, 160, colorsWarm, true, true);
   createCanvas(canvasWidth, canvasHeight);
   image(pgBackground, 0, 0);
