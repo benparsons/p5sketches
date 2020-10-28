@@ -5,10 +5,22 @@ let spreadFactor = 4;
 // https://colorhunt.co/
 let palette = ["4e89ae", "43658b", "ed6663", "ffa372"]; // 201413
 let points = [];
+let avgColor, bgColor;
 
 function setup() {
   createCanvas(canvasWidth, canvasHeight);
-  
+  let r = 0, b = 0, g = 0;
+  for (let p in palette) {
+    let c = color("#" + palette[p]);
+    palette[p] = c;
+    r += c.levels[0];
+    g += c.levels[1];
+    b += c.levels[2];
+  }
+  avgColor = color(r/palette.length, g/palette.length, b/palette.length, 255);
+  bgColor = lerpColor(color(255, 255, 255, 255), avgColor, 0.5)
+  background(bgColor);
+
   let pgCircles = createGraphics(canvasWidth, canvasHeight);
   let pgTriangles = createGraphics(canvasWidth, canvasHeight);
   for (let i = 0; i < 20; i++) {
@@ -28,12 +40,12 @@ function setup() {
     let p = points[i];
 
     // base circle
-    pgCircles.fill(color("#" + palette[int(random(0, palette.length))]));
+    pgCircles.fill(palette[int(random(0, palette.length))]);
     pgCircles.ellipse(p.vector.x, p.vector.y, 100, 100);
 
     // doubled
     if (p.options && p.options.doubled) {
-      pgCircles.fill(color("#" + palette[int(random(0, palette.length))]));
+      pgCircles.fill(palette[int(random(0, palette.length))]);
       pgCircles.ellipse(p.vector.x, p.vector.y, 50, 50);
     }
 
@@ -51,6 +63,8 @@ function setup() {
       distances = distances.sort((a, b) => {return b.distance - a.distance});
       distances = distances.slice(0, 2)
       console.log(distances);
+      pgTriangles.fill(avgColor);
+      pgTriangles.noStroke();
       pgTriangles.beginShape();
         pgTriangles.vertex(p.vector.x, p.vector.y);
         p.options.connected = true;
