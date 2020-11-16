@@ -15,6 +15,12 @@ function setup() {
   horizon(1);
   horizon(2);
   horizon(3);
+  for (let i = -1; i< 50; i++) {
+    bush(50 + (i*10),
+      25 * (i+1),
+      20 + (i /5),
+      2+ (Math.sin(i)*25));
+  }
 }
 
 function horizon(n) {
@@ -39,4 +45,12 @@ function horizon(n) {
     curveVertex(canvasWidth, canvasHeight);
     curveVertex(canvasWidth, canvasHeight * 2);
   endShape(CLOSE);
+}
+
+function bush(fronds, x, rises, riseVaries) {
+  stroke(0);
+  for (let i = 0; i < fronds; i++) {
+    line(x + randomGaussian()/2, canvasHeight + Math.abs(randomGaussian()*5),
+    x + randomGaussian() * 10, canvasHeight-rises + randomGaussian() * riseVaries);
+  }
 }
