@@ -1,6 +1,6 @@
 // test the new coloring.lerp function
 
-var canvasWidth = 600,
+var canvasWidth = 1200,
   canvasHeight = 600;
 
 // https://colorhunt.co/palette/206721
@@ -16,8 +16,14 @@ function setup() {
   let w = canvasWidth / palette.length;
   for (i in palette) {
     fill(palette[i]);
-    rect(i * w, 100, w, 100);
+    rect(i * w, 0, w, 300);
   }
 
-  
+  let result = coloring.lerp(palette, 10);
+  w = canvasWidth / result.length;
+  console.log(result.length)
+  for (i in result) {
+    fill(result[i]);
+    rect(i * w, 300, w, 300);
+  }
 }
