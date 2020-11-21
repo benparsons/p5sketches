@@ -13,10 +13,13 @@ function setup() {
 
   noLoop();
 
-  let url = "http://localhost:8090/api/1/project_save/184/output";
+  let url = "http://localhost:8090/api/1/project_save/112/output";
   loadJSON(url, data => {
     var scale = 1;//min(1.5, (canvasWidth / 2) / data.width);
     console.log(data);
+    let json_desc = JSON.parse(data.save_data);
+    json_desc.cc_id = data.cc_id;
+    console.log(JSON.stringify(json_desc));
     let url = data.url;
     imageHeight = data.cc_height * scale;
     imageWidth = data.cc_width * scale;
