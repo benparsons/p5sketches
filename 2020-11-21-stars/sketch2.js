@@ -1,5 +1,5 @@
-let canvasWidth = 500,
-  canvasHeight = 500;
+let canvasWidth = 1000,
+  canvasHeight = 1000;
 let img, pg;
 let colors;
 
@@ -7,24 +7,28 @@ function setup() {
   createCanvas(canvasWidth, canvasHeight);
   noStroke();
 
-  let palette = coloring.colorhunt.random();
-  console.log(palette)
-  colors = coloring.lerp(palette.palette, 10);
 
+  for (let i = 0; i < 5; i++) {
+    for (let j = 0; j < 5; j++) {
+      let palette = coloring.colorhunt.random();
+      console.log(palette)
+      colors = coloring.lerp(palette.palette, 10);
 
-  pg = createGraphics(200, 200);
-  pg.image(img, 0, 0)
+      pg = createGraphics(200, 200);
+      pg.image(img, random(-1000, 0), random(-1000, 0))
 
-  for (var x = 0; x < pg.width; x++) {
-    for (var y = 0; y < pg.height; y++) {
-      var c = pg.get(x, y);
-      pg.stroke(getNearest(c));
-      
-      pg.point(x, y);
+      for (var x = 0; x < pg.width; x++) {
+        for (var y = 0; y < pg.height; y++) {
+          var c = pg.get(x, y);
+          pg.stroke(getNearest(c));
+          
+          pg.point(x, y);
+        }
+      }
+
+      image(pg, i * 200, j * 200);
     }
   }
-
-  image(pg, 0, 0);
   noLoop();
 }
 

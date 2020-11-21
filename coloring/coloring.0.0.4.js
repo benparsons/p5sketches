@@ -33,6 +33,16 @@ coloring.init = function () {
     {
       url: "https://colorhunt.co/palette/161263",
       palette: [color("#8ef6e4"), color("#9896f1"), color("#d59bf6"), color("#edb1f1")]
+    },
+    {
+      url: "https://colorhunt.co/palette/179350",
+      palette: [color("#511845"), color("#900c3f"), color("#c70039"), color("#ff5733")],
+      tags: ["warm"]
+    },
+    {
+      url: "https://colorhunt.co/palette/192310",
+      palette: [color("#e7dfd5"), color("#84a9ac"), color("#3b6978"), color("#204051")],
+      tags: ["cold"]
     }
   ];
 }
