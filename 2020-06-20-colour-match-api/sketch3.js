@@ -13,7 +13,7 @@ function setup() {
 
   noLoop();
 
-  let url = "http://localhost:8090/api/1/project_save/112/output";
+  let url = "http://localhost:8090/api/1/project_save/132/output";
   loadJSON(url, data => {
     var scale = 1;//min(1.5, (canvasWidth / 2) / data.width);
     console.log(data);
@@ -27,6 +27,8 @@ function setup() {
       url = `http://localhost:8090/images/${data.filename}`;
       imageHeight = data.cc_local_cache_height * scale;
       imageWidth = data.cc_local_cache_width * scale;
+    } else {
+      console.log("Failed to find local cache. Triggering flickr fetch.");
     }
     let canvas = createCanvas(imageWidth, imageHeight);
     canvas.position(0,0);
