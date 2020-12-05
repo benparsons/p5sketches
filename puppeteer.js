@@ -2,17 +2,24 @@ const puppeteer = require('puppeteer');
 
 (async () => {
     let text = "";
+    let json = {};
     const browser = await puppeteer.launch();
     //const browser = puppeteer.launch({product: 'firefox'});
     const page = await browser.newPage();
     page.on('console', msg => {
-        console.log(msg.text());
+        console.log();
         text = msg.text().replace(/\:/g, ": ").replace(/,/g, ", ");
+        try {
+            json = JSON.parse(msg.text());
+        }
+        catch {
+            console.log(`${msg.text()} (not parsed)`);
+        }
     });
     await page.goto('http://localhost:8989/2020-06-20-colour-match-api/#3');
     const canvasElement = await page.$('canvas');
     await canvasElement.screenshot({
-        path: "out.png",
+        path: `${json.cc_id}.png`,
         omitBackground: true,
     });
     console.log(text);
