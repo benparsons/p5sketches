@@ -7,7 +7,6 @@ const puppeteer = require('puppeteer');
     //const browser = puppeteer.launch({product: 'firefox'});
     const page = await browser.newPage();
     page.on('console', msg => {
-        console.log();
         text = msg.text().replace(/\:/g, ": ").replace(/,/g, ", ");
         try {
             json = JSON.parse(msg.text());
