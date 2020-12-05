@@ -6,6 +6,7 @@ let colors = [];
 let imageWidth = 2560 / 4 / 1;
 let imageHeight = 1600 / 4 / 1;
 let cc_id = "";
+let next_save = {};
 
 function setup() {
   // let canvas = createCanvas(canvasWidth, canvasHeight);
@@ -13,7 +14,7 @@ function setup() {
 
   noLoop();
 
-  let url = "http://localhost:8090/api/1/project_save/132/output";
+  let url = `http://localhost:8090/api/1/project_save/${next_save.save_id}/output`;
   loadJSON(url, data => {
     var scale = 1;//min(1.5, (canvasWidth / 2) / data.width);
     console.log(data);
@@ -28,7 +29,7 @@ function setup() {
       imageHeight = data.cc_local_cache_height * scale;
       imageWidth = data.cc_local_cache_width * scale;
     } else {
-      console.log("Failed to find local cache. Triggering flickr fetch.");
+      console.log("Failed to find local cache. Fetch from: " + data.foreign_landing_url);
     }
     let canvas = createCanvas(imageWidth, imageHeight);
     canvas.position(0,0);
@@ -61,4 +62,8 @@ function renderFresh() {
       point(x, y);
     }
   }
+}
+
+function preload() {
+  next_save =  loadJSON("http://localhost:8090/api/1/next_project_save/2020-06-20");
 }
