@@ -12,6 +12,7 @@ const puppeteer = require('puppeteer');
             json = JSON.parse(msg.text());
             if (json.failed) {
                 console.log(json);
+                page.goto(json.fetch);
                 browser.close();
             }
         }
