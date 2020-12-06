@@ -17,6 +17,7 @@ const puppeteer = require('puppeteer');
     });
     await page.goto('http://localhost:8989/2020-06-20-colour-match-api/#3');
     const canvasElement = await page.$('canvas');
+    await page.waitForTimeout(1000);
     await canvasElement.screenshot({
         path: `${json.cc_id}.png`,
         omitBackground: true,
