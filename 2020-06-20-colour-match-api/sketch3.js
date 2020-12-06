@@ -29,7 +29,12 @@ function setup() {
       imageHeight = data.cc_local_cache_height * scale;
       imageWidth = data.cc_local_cache_width * scale;
     } else {
-      console.log("Failed to find local cache. Fetch from: " + data.foreign_landing_url);
+      let flickr_id = data.foreign_landing_url.split('/')[data.foreign_landing_url.split('/').length-1]
+      console.log(JSON.stringify({
+        failed: "Failed to find local cache.",
+        url: data.foreign_landing_url,
+        fetch: `http://localhost:8090/api/1/flickr/pull/${flickr_id}/${data.id}`
+      }));
     }
     let canvas = createCanvas(imageWidth, imageHeight);
     canvas.position(0,0);

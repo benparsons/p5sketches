@@ -10,6 +10,10 @@ const puppeteer = require('puppeteer');
         text = msg.text().replace(/\:/g, ": ").replace(/,/g, ", ");
         try {
             json = JSON.parse(msg.text());
+            if (json.failed) {
+                console.log(json);
+                browser.close();
+            }
         }
         catch {
             console.log(`${msg.text()} (not parsed)`);
