@@ -8,7 +8,11 @@ const M = new Mastodon({
     api_url: config.api_url,
 })
 
-M.post('media', { file: fs.createReadStream(config.image_filename) }).then(resp => {
-    const id = resp.data.id;
-    M.post('statuses', { status: config.status_text, media_ids: [id] })
-});
+if (config.image_filename) {
+    M.post('media', { file: fs.createReadStream(config.image_filename) }).then(resp => {
+        const id = resp.data.id;
+        M.post('statuses', { status: config.status_text, media_ids: [id] });
+    });
+} else if (config.status_text) {
+    M.post('statuses', { status: config.status_text });
+}
