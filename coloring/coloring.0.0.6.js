@@ -140,3 +140,19 @@ coloring.colorhunt.random = function () {
   if (! coloring.colorhunt.colors) coloring.init();
   return coloring.colorhunt.colors[int(random(0, coloring.colorhunt.colors.length))]
 }
+
+coloring.getNearest = function(c, colors) {
+  var dist = Infinity;
+  var result;
+  for (test of colors) {
+    var testDist = 
+      Math.abs(test.levels[0]-c[0]) +
+      Math.abs(test.levels[1]-c[1]) +
+      Math.abs(test.levels[2]-c[2]);
+    if (testDist < dist) {
+      dist = testDist;
+      result = test;
+    }
+  }
+  return result;
+}
