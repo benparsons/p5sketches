@@ -8,15 +8,22 @@ const M = new Mastodon({
     api_url: config.api_url,
 })
 
+let options = {};
+options.status = config.status_text;
+if (config.in_reply_to_id) {
+    options.in_reply_to_id = config.in_reply_to_id;
+}
 if (config.image_filename) {
     M.post('media', { file: fs.createReadStream(config.image_filename) }).then(resp => {
-        const id = resp.data.id;
-        M.post('statuses', { status: config.status_text, media_ids: [id], in_reply_to_id: config.in_reply_to_id }).then(resp => {
-            console.log(resp.data);
-        });
+        options.media_ids = [resp.data.id]
+        post(options);
     });
 } else if (config.status_text) {
-    M.post('statuses', { status: config.status_text, in_reply_to_id: config.in_reply_to_id }).then(resp => {
+    post(options);
+}
+
+function post(options) {
+    M.post('statuses', options).then(resp => {
         console.log(resp.data);
     });
 }

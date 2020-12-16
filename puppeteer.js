@@ -45,6 +45,9 @@ const fs = require('fs');
     console.log("replacing config.status_text, was:");
     console.log(config.status_text);
     config.status_text = text;
+
+    config.in_reply_to_id = null;
+
     fs.writeFileSync('config.json', JSON.stringify(config, null, 2));
 
     await browser.close();
