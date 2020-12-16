@@ -1,4 +1,6 @@
 const puppeteer = require('puppeteer');
+let config = require('./config');
+const fs = require('fs');
 
 (async () => {
     let text = "";
@@ -28,11 +30,22 @@ const puppeteer = require('puppeteer');
     });
 
     const canvasElement = await page.$('canvas');
+    let filename = `${json.cc_id}.png`;
     await canvasElement.screenshot({
-        path: `${json.cc_id}.png`,
+        path:filename,
         omitBackground: true,
     });
-    console.log(text);
+
+    console.log(config);
+    
+    console.log("replacing config.image_filename, was:");
+    console.log(config.image_filename);
+    config.image_filename = filename;
+
+    console.log("replacing config.status_text, was:");
+    console.log(config.status_text);
+    config.status_text = text;
+    fs.writeFileSync('config.json', JSON.stringify(config, null, 2));
 
     await browser.close();
 })();
