@@ -20,9 +20,14 @@ const puppeteer = require('puppeteer');
             console.log(`${msg.text()} (not parsed)`);
         }
     });
-    await page.goto('http://localhost:8989/2020-06-20-colour-match-api/#3');
+    await page.goto('http://localhost:8989/2020-06-20-colour-match-api/#3', { 
+        waitUntil: 'domcontentloaded'
+    });
+    await page.waitForSelector('canvas', {
+        visible: true
+    });
+
     const canvasElement = await page.$('canvas');
-    await page.waitForTimeout(1000);
     await canvasElement.screenshot({
         path: `${json.cc_id}.png`,
         omitBackground: true,
