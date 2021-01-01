@@ -14,7 +14,7 @@ var fs = require('fs');
 app.get('/', function (req, res) {
     let dir = fs.readdirSync(".");
     let list = [];
-    dir.filter(function(file) {
+    dir.filter(function (file) {
         var stat = fs.statSync(file);
         if (!(stat && stat.isDirectory())) {
             return;
@@ -24,10 +24,22 @@ app.get('/', function (req, res) {
         }
         list.push(file);
     })
-    list = list.map(file => {return `<li>
-    <a href="${file}/">${file}</a>
-    </li>`})
-    res.send(list.join("\n"))
+    list = list.map(file => {
+        let subdir = fs.readdirSync("./" + file);
+        subdir = subdir.filter(s => s.startsWith("sketch"));
+        console.log(subdir);
+        let responseString = `<li>`;
+        responseString += `<a href="${file}/">${file}</a>`
+        responseString += `<ul>`;
+        subdir.map(s => {
+            let num = s.replace("sketch", "").replace(".js", "");
+            responseString += `<li><a href="${file}/#${num}">${s}</a></li>`
+        });
+        responseString += `</ul>`;
+        responseString += `</li>`;
+        return responseString;
+    })
+    res.send("<ul>" + list.join("\n") + "</ul>")
 });
 
 app.get('*', function (req, res) {
