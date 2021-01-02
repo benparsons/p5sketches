@@ -1,10 +1,11 @@
-var canvasWidth = 600,
-  canvasHeight = 600;
+var canvasWidth = 1200,
+  canvasHeight = 1200;
 let gridSize = 15;
 let blockSize = canvasWidth / gridSize;
 
 function setup() {
   createCanvas(canvasWidth, canvasHeight);
+  background(255);
   stroke(0);
   noFill();
   ellipseMode(CENTER)
