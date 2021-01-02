@@ -10,8 +10,8 @@ let line = 0;
 let passes = 0;
 
 function setup() {
-  background(255);
   createCanvas(canvasWidth, canvasHeight);
+  background(255);
   stroke(0);
   arr = Array.apply(null, Array(canvasWidth)).map(function () { return 0; })
   arr[canvasWidth/2] = 1;
