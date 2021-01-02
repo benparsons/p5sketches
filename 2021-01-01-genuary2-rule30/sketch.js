@@ -3,8 +3,8 @@
 // Rule 30: [left_cell XOR (central_cell OR right_cell)]
 // 0 ^ (0 || 0)
 
-var canvasWidth = 800,
-  canvasHeight = 600;
+var canvasWidth = 1200,
+  canvasHeight = canvasWidth / 2;
 let arr;
 let line = 0;
 
@@ -13,7 +13,7 @@ function setup() {
   createCanvas(canvasWidth, canvasHeight);
   stroke(0);
   arr = Array.apply(null, Array(canvasWidth)).map(function () { return 0; })
-  arr[400] = 1;
+  arr[canvasWidth / 2] = 1;
 }
 
 function draw() {
