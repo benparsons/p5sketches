@@ -5,7 +5,6 @@ let steps = 20;
 let colors = [];
 let imageWidth = 2560 / 4 / 1;
 let imageHeight = 1600 / 4 / 1;
-let cc_id = "";
 let next_save = {};
 
 function setup() {
@@ -14,35 +13,21 @@ function setup() {
 
   noLoop();
 
-  let url = `http://localhost:8090/api/1/project_save/${next_save.save_id}/output`;
-  loadJSON(url, data => {
-    var scale = 1;//min(1.5, (canvasWidth / 2) / data.width);
-    console.log(data);
-    let json_desc = JSON.parse(data.save_data);
-    json_desc.cc_id = data.cc_id;
-    console.log(JSON.stringify(json_desc));
-    let url = data.url;
-    imageHeight = data.cc_height * scale;
-    imageWidth = data.cc_width * scale;
-    if (data.filename) {
-      url = `http://localhost:8090/images/${data.filename}`;
-      imageHeight = data.cc_local_cache_height * scale;
-      imageWidth = data.cc_local_cache_width * scale;
-    } else {
-      let flickr_id = data.foreign_landing_url.split('/')[data.foreign_landing_url.split('/').length-1]
-      console.log(JSON.stringify({
-        failed: "Failed to find local cache.",
-        url: data.foreign_landing_url,
-        fetch: `http://localhost:8090/api/1/flickr/pull/${flickr_id}/${data.id}`
-      }));
-    }
-    let canvas = createCanvas(imageWidth, imageHeight);
-    canvas.position(0,0);
-    img =loadImage(url, loadSourceImage);
-    cc_id = data.cc_id;
-    from = color(JSON.parse(data.save_data).from);
-    to = color(JSON.parse(data.save_data).to);
-  });
+  let params = new URLSearchParams(location.search);
+  let url = params.get("url");
+  let cc_height = params.get("cc_height");
+  let cc_width = params.get("cc_width");
+  let save_data = params.get("save_data");
+  console.log(save_data);
+  
+  var scale = 1;//min(1.5, (canvasWidth / 2) / data.width);
+  imageHeight = cc_height * scale;
+  imageWidth = cc_width * scale;
+  let canvas = createCanvas(imageWidth, imageHeight);
+  canvas.position(0,0);
+  img =loadImage(url, loadSourceImage);
+  from = color(JSON.parse(save_data).from);
+  to = color(JSON.parse(save_data).to);
 }
 
 function loadSourceImage() {
